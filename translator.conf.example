@@ -1,0 +1,6 @@
+# Netcat server port. Might be used with "IP Port" 
+# for better security and stability use "127.0.0.1 9091"
+server_port="127.0.0.1 9091"
+
+# Timeout of the Curl queries to the rigs
+curl_timeout=3

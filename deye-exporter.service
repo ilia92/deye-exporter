@@ -1,0 +1,11 @@
+[Unit]
+Description=
+
+[Service]
+Type=simple
+User=ilia
+ExecStart={path_to}/web_daemon.sh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
