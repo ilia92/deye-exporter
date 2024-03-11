@@ -4,6 +4,7 @@
 What this script does:
  - Gets data from a Deye invertor and provides Prometheus-ready metrics as a webpage, ready for scraping
 
+![deye-exporter_example.png](https://github.com/ilia92/deye-exporter/blob/main/Grafana/deye-exporter_example.png) 
 
 This script requires installed [deye-controller](https://github.com/githubDante/deye-controller)
  
