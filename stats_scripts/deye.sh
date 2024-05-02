@@ -21,12 +21,14 @@ case $Inverter_State in
 esac
 
 # General
-advertised_data+="$inverter_name{states=\"state\"} $Inverter_State_numeric\n"
-# Using the probe for Heatsink Probe
-advertised_data+="$inverter_name{batt=\"batt_temp\"} $Battery_Temperature\n"
-advertised_data+="$inverter_name{ac=\"frequency\"} $Grid_In_Frequency\n"
+advertised_data+="$inverter_name{stats=\"state\"} $Inverter_State_numeric\n"
+advertised_data+="$inverter_name{stats=\"dc_transformer_temp\"} $Dc_Transformer_Temp\n"
+advertised_data+="$inverter_name{stats=\"heatsink_temp\"} $Heatsink_Temp\n"
+
 
 # AC Powers grid/load/generated per Phase
+advertised_data+="$inverter_name{ac=\"frequency\"} $Grid_In_Frequency\n"
+
 advertised_data+="$inverter_name{ac=\"voltage\", phase=\"A\"} $Grid_Phase_A_Volt\n"
 advertised_data+="$inverter_name{ac=\"voltage\", phase=\"B\"} $Grid_Phase_B_Volt\n"
 advertised_data+="$inverter_name{ac=\"voltage\", phase=\"C\"} $Grid_Phase_C_Volt\n"
@@ -61,6 +63,9 @@ advertised_data+="$inverter_name{dc=\"pv_current\", string=\"mppt1\"} $Pv1_Curre
 advertised_data+="$inverter_name{dc=\"pv_current\", string=\"mppt2\"} $Pv2_Current\n"
 
 # Battery data
+advertised_data+="$inverter_name{batt=\"batt_temp\"} $Battery_Temperature\n"
+advertised_data+="$inverter_name{batt=\"batt_soc\"} $Battery_Soc\n"
+
 advertised_data+="$inverter_name{batt=\"voltage\"} $Battery_Voltage\n"
 advertised_data+="$inverter_name{batt=\"out_power\"} $Battery_Out_Power\n"
 advertised_data+="$inverter_name{batt=\"out_current\"} $Battery_Out_Current\n"

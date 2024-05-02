@@ -43,7 +43,7 @@ esac
 while [ 1 ]
 do
 
-coproc (nc -l $server_port 2>&1)
+coproc (nc -N -l $server_port 2>&1)
 
 {
     read request
