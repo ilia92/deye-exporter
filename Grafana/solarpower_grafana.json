@@ -17,7 +17,7 @@
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "graphTooltip": 1,
+  "graphTooltip": 2,
   "id": 8,
   "links": [],
   "liveNow": false,
@@ -32,6 +32,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "fieldMinMax": false,
           "mappings": [
             {
               "options": {
@@ -43,15 +44,26 @@
                 "2": {
                   "color": "green",
                   "index": 1,
-                  "text": "Normal"
+                  "text": "ON"
                 },
                 "9": {
-                  "color": "red",
+                  "color": "orange",
                   "index": 2,
                   "text": "Unknown"
                 }
               },
               "type": "value"
+            },
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "color": "red",
+                  "index": 3,
+                  "text": "Unknown"
+                }
+              },
+              "type": "special"
             }
           ],
           "thresholds": {
@@ -72,7 +84,7 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
+        "w": 2,
         "x": 0,
         "y": 0
       },
@@ -84,12 +96,13 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "last"
           ],
           "fields": "",
           "values": false
         },
         "showPercentChange": false,
+        "text": {},
         "textMode": "auto",
         "wideLayout": true
       },
@@ -102,7 +115,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "{states=\"state\"}",
+          "expr": "{stats=\"state\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -130,26 +143,22 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "blue",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
-          "unit": "rothz"
+          "unit": "kwatth"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
-        "x": 4,
+        "w": 3,
+        "x": 2,
         "y": 0
       },
-      "id": 7,
+      "id": 17,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -157,7 +166,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "diff"
           ],
           "fields": "",
           "values": false
@@ -175,7 +184,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "{ac=\"frequency\"}",
+          "expr": "{energy=\"total_to_load\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -185,7 +194,7 @@
           "useBackend": false
         }
       ],
-      "title": "Frequency",
+      "title": "Consumed",
       "type": "stat"
     },
     {
@@ -196,47 +205,44 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "continuous-GrYlRd"
+            "mode": "thresholds"
           },
-          "decimals": 1,
-          "fieldMinMax": false,
           "mappings": [],
-          "max": 70,
-          "min": 10,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "red",
                 "value": null
               }
             ]
           },
-          "unit": "celsius"
+          "unit": "kwatth"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 3,
         "w": 3,
-        "x": 8,
+        "x": 5,
         "y": 0
       },
-      "id": 10,
+      "id": 15,
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "diff"
           ],
           "fields": "",
           "values": false
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
       "pluginVersion": "10.4.0",
       "targets": [
@@ -246,8 +252,8 @@
             "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
           },
           "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "({batt=\"batt_temp\"}-12.5)*12+16",
+          "editorMode": "builder",
+          "expr": "{energy=\"total_from_grid\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -257,8 +263,77 @@
           "useBackend": false
         }
       ],
-      "title": "Temperature",
-      "type": "gauge"
+      "title": "Bought",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "yellow",
+                "value": null
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 8,
+        "y": 0
+      },
+      "id": 16,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "diff"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "{energy=\"total_from_pv\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Generated",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -296,7 +371,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": 660000,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -492,6 +567,76 @@
       "fieldConfig": {
         "defaults": {
           "color": {
+            "mode": "continuous-RdYlGr"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 2,
+        "x": 0,
+        "y": 3
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "sum({ac=\"total_generated_power\"}/ on(){ac=\"total_load_power\"})*100",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "{{label_name}}",
+          "range": true,
+          "refId": "B",
+          "useBackend": false
+        }
+      ],
+      "title": "Solar %",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
             "mode": "continuous-GrYlRd"
           },
           "mappings": [],
@@ -512,8 +657,8 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 4,
-        "x": 0,
+        "w": 3,
+        "x": 2,
         "y": 3
       },
       "id": 27,
@@ -582,8 +727,8 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 4,
-        "x": 4,
+        "w": 3,
+        "x": 5,
         "y": 3
       },
       "id": 26,
@@ -632,44 +777,88 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "continuous-GrYlRd"
           },
+          "decimals": 1,
+          "displayName": "${__field.labels[\"batt\"]}${__field.labels[\"stats\"]}",
+          "fieldMinMax": false,
           "mappings": [],
+          "max": 70,
+          "min": 10,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
+                "color": "green",
                 "value": null
               }
             ]
           },
-          "unit": "kwatth"
+          "unit": "celsius"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "DC Transformer Temp"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Heatsink Temp"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "C"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Battery Temp"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 3,
+        "h": 6,
         "w": 3,
         "x": 8,
-        "y": 6
+        "y": 3
       },
-      "id": 17,
+      "id": 10,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
+        "displayMode": "gradient",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
-            "diff"
+            "lastNotNull"
           ],
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
       },
       "pluginVersion": "10.4.0",
       "targets": [
@@ -680,18 +869,32 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "{energy=\"total_to_load\"}",
+          "expr": "{stats=\"heatsink_temp\"}",
           "fullMetaSearch": false,
+          "hide": false,
           "includeNullMetadata": true,
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
           "refId": "A",
           "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+          },
+          "editorMode": "code",
+          "expr": "({batt=\"batt_temp\"}-12.5)*12+16",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "C"
         }
       ],
-      "title": "Consumed",
-      "type": "stat"
+      "title": "Temperature",
+      "type": "bargauge"
     },
     {
       "datasource": {
@@ -714,13 +917,14 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "volt"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
-        "w": 4,
+        "h": 6,
+        "w": 1,
         "x": 0,
         "y": 9
       },
@@ -730,8 +934,8 @@
         "maxVizHeight": 300,
         "minVizHeight": 10,
         "minVizWidth": 0,
-        "namePlacement": "auto",
-        "orientation": "horizontal",
+        "namePlacement": "left",
+        "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -762,8 +966,151 @@
           "useBackend": false
         }
       ],
-      "title": "Batt Voltage",
+      "title": "Batt V",
       "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-RdYlGr"
+          },
+          "mappings": [],
+          "max": 60,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 1,
+        "x": 1,
+        "y": 9
+      },
+      "id": 30,
+      "options": {
+        "displayMode": "gradient",
+        "maxVizHeight": 300,
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "namePlacement": "left",
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "{batt=\"batt_soc\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "SoC",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "mappings": [],
+          "max": 9999,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "watt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 2,
+        "y": 9
+      },
+      "id": 29,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "{batt=\"out_power\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Batt Power",
+      "type": "gauge"
     },
     {
       "datasource": {
@@ -793,8 +1140,8 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 4,
-        "x": 4,
+        "w": 3,
+        "x": 5,
         "y": 9
       },
       "id": 25,
@@ -843,80 +1190,14 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "continuous-RdYlGr"
           },
+          "decimals": 0,
+          "displayName": "${__field.labels[\"phase\"]}",
+          "fieldMinMax": false,
           "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              }
-            ]
-          },
-          "unit": "kwatth"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 8,
-        "y": 9
-      },
-      "id": 15,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "diff"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "10.4.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
-          },
-          "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "{energy=\"total_from_grid\"}",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "Bought",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "continuous-GrYlRd"
-          },
-          "mappings": [],
-          "max": 9999,
-          "min": 0,
+          "max": 250,
+          "min": 200,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -926,21 +1207,24 @@
               }
             ]
           },
-          "unit": "watt"
+          "unit": "volt"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 0,
-        "y": 11
+        "h": 6,
+        "w": 3,
+        "x": 8,
+        "y": 9
       },
-      "id": 29,
+      "id": 35,
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "horizontal",
+        "displayMode": "gradient",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -948,9 +1232,10 @@
           "fields": "",
           "values": false
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showUnfilled": true,
+        "sizing": "auto",
+        "text": {},
+        "valueMode": "color"
       },
       "pluginVersion": "10.4.0",
       "targets": [
@@ -961,8 +1246,9 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "{batt=\"out_power\"}",
+          "expr": "{ac=\"voltage\"}",
           "fullMetaSearch": false,
+          "hide": false,
           "includeNullMetadata": true,
           "instant": false,
           "legendFormat": "__auto",
@@ -971,77 +1257,8 @@
           "useBackend": false
         }
       ],
-      "title": "Batt Power",
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "yellow",
-                "value": null
-              }
-            ]
-          },
-          "unit": "kwatth"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 8,
-        "y": 12
-      },
-      "id": 16,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "diff"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "10.4.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
-          },
-          "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "{energy=\"total_from_pv\"}",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "Generated",
-      "type": "stat"
+      "title": "Voltage",
+      "type": "bargauge"
     },
     {
       "datasource": {
@@ -1196,7 +1413,7 @@
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -1466,7 +1683,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 3,
         "w": 1,
         "x": 23,
         "y": 15
@@ -1518,6 +1735,74 @@
       "fieldConfig": {
         "defaults": {
           "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "yellow",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 1,
+        "x": 23,
+        "y": 18
+      },
+      "id": 32,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "{ac=\"generated_power\", phase=\"A\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "P Gen A",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
             "mode": "palette-classic"
           },
           "custom": {
@@ -1558,7 +1843,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1713,7 +1999,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue"
+                "color": "blue",
+                "value": null
               }
             ]
           }
@@ -1721,7 +2008,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 3,
         "w": 1,
         "x": 23,
         "y": 21
@@ -1813,7 +2100,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1840,7 +2128,7 @@
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -1864,6 +2152,74 @@
       ],
       "title": "PV Power",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "yellow",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 1,
+        "x": 23,
+        "y": 24
+      },
+      "id": 33,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "{ac=\"generated_power\", phase=\"B\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "P Gen B",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -2050,7 +2406,7 @@
           "useBackend": false
         }
       ],
-      "title": "PowerInOut A",
+      "title": "PowerInOut C",
       "type": "timeseries"
     },
     {
@@ -2076,7 +2432,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 3,
         "w": 1,
         "x": 23,
         "y": 27
@@ -2118,6 +2474,73 @@
         }
       ],
       "title": "P Load C",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "yellow"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 1,
+        "x": 23,
+        "y": 30
+      },
+      "id": 34,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "{ac=\"generated_power\", phase=\"C\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "P Gen C",
       "type": "stat"
     },
     {
@@ -2195,7 +2618,7 @@
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -2218,6 +2641,258 @@
         }
       ],
       "title": "Grid Voltage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "right",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "displayName": "${__field.labels[\"ac\"]}-${__field.labels[\"phase\"]}",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "watt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 33
+      },
+      "id": 36,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "{ac=\"load_power\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Load Per Phase",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 1,
+          "displayName": "${__field.labels[\"batt\"]}${__field.labels[\"stats\"]}",
+          "fieldMinMax": false,
+          "mappings": [],
+          "max": 70,
+          "min": 10,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "DC Transformer Temp"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Heatsink Temp"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "C"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Battery Temp"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 41
+      },
+      "id": 31,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "{stats=\"heatsink_temp\"}",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
+          },
+          "editorMode": "code",
+          "expr": "({batt=\"batt_temp\"}-12)*6+26",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "C"
+        }
+      ],
+      "title": "Temperatures",
       "type": "timeseries"
     },
     {
@@ -2284,7 +2959,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 33
+        "y": 41
       },
       "id": 9,
       "options": {
@@ -2295,7 +2970,7 @@
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -2345,13 +3020,13 @@
     "list": []
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-12h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Sunpower",
   "uid": "ff05a58d-c82f-475c-b6f8-ceb28eb0b460",
-  "version": 139,
+  "version": 196,
   "weekStart": ""
 }
